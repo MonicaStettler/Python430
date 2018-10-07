@@ -1,0 +1,139 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct  3 21:29:58 2018
+
+@author: Monica
+"""
+# =============================================================================
+# MONICA STETTLER, 10-3-18, A=2, P-3, DSC430 - AVOCADOS
+# “I have not given or received any unauthorized assistance on this assignment.”  
+# =============================================================================
+# =============================================================================
+# Find on the D2L a datafile named “avocados.csv” -- Retrieved from Kaggle (9/26/2018).  This data was downloaded from the Hass Avocado Board website in May of 2018 & compiled into a single CSV.
+# a)	Define a function that takes a variable name in the form of a string (e.g. “Total Volume”), reads into memory the values for that variable (but just that variable) and computes the mean using the statistics module.
+#
+# mean_SM = readAndComputeMean_SM(“Total Volume”)
+# 
+# b)	Define a function that takes a variable name in the form of a string (e.g. “Total Volume”), reads into memory the values for that variable (but just that variable) and computes the standard deviation using the statistics module.
+# 
+# sd_SM = readAndComputeSD_SM(“Total Volume”)
+# 
+# c)	Define a function that takes a variable name in the form of a string (e.g. “Total Volume”), reads into memory the values for that variable (but just that variable) and computes the median using the statistics module.
+# 
+# median_SM = readAndComputeMedian_SM(“Total Volume”)
+# 
+# d)	Repeat a-c, but instead of using the statistics module write your own “homegrown” code to compute the mean, standard deviation and median.
+# 
+# mean_HG = readAndComputeMean_HG(“Total Volume”)
+# sd_HG = readAndComputeSD_HG(“Total Volume”)
+# median_HG = readAndComputeMedian_HG(“Total Volume”)
+# 
+# e)	Repeat a-c, but your functions must be memoryless – you can hold in memory only a single value from the file at any given time.
+# 
+# mean_MML = readAndComputeMean_MML(“Total Volume”)
+# sd_MML = readAndComputeSD_MML(“Total Volume”)
+# median_MML = readAndComputeMedian_MML(“Total Volume”)
+# 
+# f)	Write test code to demonstrate that the means, standard deviations and medians are the same across all three techniques.
+# 
+# =============================================================================
+import statistics
+
+def main():
+    filename = 'Avocado.csv'
+    headersList = readHeaders(filename)
+    headerTitle = chooseHeader(headersList)
+    titleIndex = headerIndex(headerTitle,filename)
+    dataColumn = readDataCol(titleIndex,filename)
+    calcMean(headerTitle,dataColumn)
+    standDev(headerTitle,dataColumn)
+    calcMedian(headerTitle, dataColumn)
+    myMean = myCalcMean(headerTitle, dataColumn)
+    myStandDev(headerTitle,dataColumn,myMean)
+    myMedian(headerTitle, dataColumn)
+    
+def readHeaders(filename):
+    'read in column titles and split'
+    infile = open(filename)
+    headers = infile.readline()
+    infile.close()
+    headersSplit = headers.split(",")
+    return headersSplit
+
+def chooseHeader(headersSplit):
+    print(headersSplit)
+    headerChoice = input('Choose the title of the column you want to use: ')
+    return headerChoice
+
+def headerIndex(headerChoice,filename):
+    listHeaders = readHeaders(filename)
+    indexS = listHeaders.index(headerChoice)
+    index = int(indexS)
+    return index
+     
+def readDataCol(index,filename):
+    'read in data from file and capture data from chosen column and convert to float'
+    infile = open(filename)
+    fulldata = infile.readlines()
+    infile.close()
+    data = []
+    for line in range(1,len(fulldata)):
+        parts = fulldata[line].split(",")
+        for part in parts:
+            datapoint = parts[index]
+        data.append(datapoint)
+    dataNum = []
+    for datapoint in data:
+        num = float(datapoint)
+        dataNum.append(num)    
+    return dataNum
+
+def calcMean(headerChoice, dataNum):
+    meanData = statistics.mean(dataNum)
+    print('The mean of', headerChoice, 'is:', '{:7.2f}'.format(meanData))
+    return meanData
+
+def standDev(headerChoice, dataNum):
+    sdData = statistics.stdev(dataNum)
+    print('The standard deviation of', headerChoice, 'is:', '{:7.2f}'.format(sdData))
+    return sdData
+
+def calcMedian(headerChoice, dataNum):
+    medianData = statistics.median(dataNum)
+    print('The median of', headerChoice, 'is:', '{:7.2f}'.format(medianData))
+    return medianData
+
+def myCalcMean(headerChoice, dataNum):
+    sum = 0
+    for num in dataNum:
+        sum += num
+    count = 0
+    for num in dataNum:
+        count += 1
+    myMeanData = sum / count
+    print('My mean for', headerChoice, 'is:', '{:7.2f}'.format(myMeanData))
+    return myMeanData
+
+def myStandDev(headerChoice, dataNum, myMeanData):
+    sqdiff = 0
+    for num in dataNum:
+        sqdiff += ((myMeanData - num)**2)
+    count = 0
+    for num in dataNum:
+        count += 1
+    variance = sqdiff / count
+    mySD = variance**.5
+    print('My standard deviaion for', headerChoice, 'is:', '{:7.2f}'.format(mySD))
+    return mySD
+ 
+def myMedian(headerChoice,dataNum):
+    dataNum.sort()
+    length = len(dataNum)
+    if (length % 2 == 0): #if the list has an even number of items
+       myMiddle = (dataNum[(length)//2] + dataNum[(length)//2-1]) / 2 #we take the average of the 2 number in the middle
+    else:
+        myMiddle = dataNum[(length-1)//2] #if the list has odd number of items, we take the number in the middle
+    print('My median for', headerChoice, 'is:', '{:7.2f}'.format(myMiddle))
+    return myMiddle
+
+main()
