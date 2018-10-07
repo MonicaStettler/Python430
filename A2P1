@@ -1,0 +1,85 @@
+## -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+# MONICA STETTLER, A-2, P-1, dsc430, 10-3-18
+#“I have not given or received any unauthorized assistance on this assignment.” 
+# BABY NAMES
+
+# =============================================================================
+# Find on the D2L two datafiles, “namesBoys” and “namesGirls”, containing the 1000 
+# most popular baby names in the United States in 2010.  Define a function that reads 
+# the two datafiles into memory storing them in two lists.  For each letter, a through z, 
+# count the number of times a names ends in a particular letter.  
+# Finally, print the counts to the console in well formatted and sorted columns, 
+# so that the data line up nicely
+# =============================================================================
+"""
+# =============================================================================
+# Finally, include as a comment at the end of your code a paragraph discussing 
+# any interesting differences you found in the comparison of the endings of boys and girls names.
+# =============================================================================
+
+def main():
+    'executes all steps to take names from a file of boy names, remove last letter from each name, count the number of each letter, repeat for girl names and print'
+    boysNames = letterList('namesBoys.txt') #reads/closes the file, returns data as list, removes the last letter from names, returns list
+    boysOrd = convertASCII(boysNames) #converts the letters in list to their ASCII ordinal equivalent and sorts list
+    boysCount = counter(boysOrd) #counts the number of each letter, adds zero when letter does not appear in list
+    
+    girlsNames = letterList('namesGirls.txt')#reads/closes the file, returns data as list, removes the last letter from names, returns list
+    girlsOrd = convertASCII(girlsNames)#converts the letters in list to their ASCII ordinal equivalent and sorts list
+    girlsCount = counter(girlsOrd)#counts the number of each letter, adds zero when letter does not appear in list
+     
+    print('Ending', 'Boys', 'Girls', sep = '\t') #prints headings for lists
+    
+    printList(boysCount, girlsCount) #prints the alphabet with corresponding counts for boy and girl names
+   
+def readfile(filename):
+    'read in the file, return as list'
+    infile = open(filename) #open the file
+    list = infile.readlines() #read in each line
+    infile.close() #close file
+    return list #return as a list
+
+def letterList(filename):
+    'removes the last letter of each name and puts into a new list called letters'
+    nameList = readfile(filename) #calls the function "readfile" and assigns it to nameList
+    letters = [] #creates empty list for use in capturing letters
+    for name in nameList: #iterates through the names in "nameList"
+        letters.append(name[-2]) #removes the last letter of each name and adds it to the "letters" list (index -2 due to newline)
+    return letters #returns list of the letters that have been removed and stored in "letters" list
+
+def convertASCII(letters):
+    'takes list of letters from letterList, converts to ASCII number, returns list'
+    ordlist = [] #creates empty list to hold converted list of letters to ASCII numbers
+    for char in letters: #iterates through the "letters" list
+        ordlist.append(ord(char)) #converts to ASCII number and adds it to "ordlist"
+    ordlist.sort() #sorts the new list
+    return ordlist #returns the sorted list of ASCII numbers
+
+def counter(ordlist):
+    'counts the ordlist, returns count of each letter, adds zero when number(aka letter) is missing'
+    counter = [] #create empty list to hold counts
+    for i in range(97,122): #iterate through the numbers that correspond to lowercase 'a' through 'z'
+        counter.append(ordlist.count(i)) #if the number is in the list, then we add the count of that number
+    else:
+        counter.append(0) #if the number is not in the list, we add zero to the count
+    return counter #return list of counts
+
+def printList(lst1,lst2):
+    'print a through z, and lists of counts from 2 lists'
+    alphabet = list(range(97,122)) #create list from equiv. ASCII numbers for 'a' through 'z'
+    for i in range(len(alphabet)): #iterate through the alphabet list
+        print(chr(alphabet[i]), lst1[i], lst2[i], sep = '\t') #print alphabet, list1, list2
+
+main()
+
+#COMMENTS ON INTERESTING DIFFERENCES IN BOY VS GIRL NAMES:
+#Not surprisingly, 'a' is by far the most popular ending for girl names(almost 
+#twice as popular as the next most popular letter), followed by 'e', 'n', 'y' in order. 
+#Also not surprising is that 'n' is the most popular boys name, but it is surprising
+#that it is 3x more popular than the next most popular letter). The letter 'e' is 2nd most popular boy name,
+#followed by 'o'. I find 'o' surprising. Also interesting was that there were boy names
+#that ended in every letter but 'q', while there were 10 letters for which there
+#were no girl names with that ending letter: 'b','f','g','j','k','o','p', 'q','u','v'.
+
