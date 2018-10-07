@@ -1,0 +1,152 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct  3 21:24:04 2018
+
+@author: Monica
+"""
+#DSC430 A2-P-2, MONICA STETTLER, 10-3-18 STEM AND LEAF
+#“I have not given or received any unauthorized assistance on this assignment.” 
+# =============================================================================
+# Find on the D2L three “StemAndLeaf” datafiles.  Write code that….
+# a)	Greets the user.
+# b)	Asks the user to input a 1, 2 or 3.
+# c)	Given the input, reads in the appropriate datafile and displays a stem and leaf plot.  (Note: This will require you to make several design decisions.  I am not looking for a specific format, but the final format should be well thought out.)
+# d)	Loops until the user wishes to exit.
+# =============================================================================
+
+
+# =============================================================================
+# def main():
+#     print('Hello, User!')
+#     done = y
+#     while done = y:
+#         pickfile()
+#         
+#         
+#         done = input(print('Do you wish to do it again? (y or n) '))
+#     
+# =============================================================================
+
+
+def readfile(filename):
+    'read in the file, return as list'
+    infile = open(filename) #open the file
+    list = infile.readlines() #read in each line
+    infile.close() #close file
+    return list #return as a list
+
+def pickfile():
+    'asks user to pick a file, calls open/read/close function and returns data'
+    
+    fileno = int(input('Please enter a file number (1,2 or 3): '))
+    if fileno == 1:
+        filename = 'StemAndLeaf1.txt'
+    elif fileno == 2:
+        filename = 'StemAndLeaf2.txt'
+    else:
+        filename = 'StemAndLeaf3.txt'
+    data = readfile(filename)  
+    print(data)
+    return data
+
+def createStem(data):
+    digits = len(str(max(data)))
+    stem = []
+    if digits == 4:
+        stem = [90, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 1010]
+    if digits == 3:
+        stem = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    if digits == 2:
+        stem = [0, 1,2,3,4,5,6,7, 8, 9, 10]
+    return stem   
+ 
+def createLeaf(data):
+    data.sort()
+    digits = len(str(max(data)))
+    leaf = []
+    if digits == 4:
+        for i in data:
+            if 900 < i < 1000:
+                leaf[i] = leaf[i].append([i-2])
+            if 1010 < i <1020:
+                leaf[i] = leaf[i].append([i-2])
+            if 1020 < i < 1030:
+                leaf[i] = leaf[i].append([i-2])
+            if 1030 < i < 1040:
+                leaf[i] = leaf[i].append([i-2])
+            if 1040 < i < 1050:
+                leaf[i] = leaf[i].append([i-2])
+            if 1050 < i < 1060:
+                leaf[i] = leaf[i].append([i-2])
+            if 1070 < i < 1080:
+                leaf[i] = leaf[i].append([i-2])
+            if 1080 <i < 1090:
+                leaf[i] = leaf[i].append([i-2])
+            if 1090 <i <1010:
+                leaf[i] = leaf[i].append([i-2])
+    elif digits == 3:
+        for i in data:
+            if 90 < i < 100:
+                leaf[i] = leaf[i].append([i-2])
+            if 110 < i <120:
+                leaf[i] = leaf[i].append([i-2])
+            if 120 < i < 130:
+                leaf[i] = leaf[i].append([i-2])
+            if 130 < i < 140:
+                leaf[i] = leaf[i].append([i-2])
+            if 140 < i < 150:
+                leaf[i] = leaf[i].append([i-2])
+            if 150 < i < 160:
+                leaf[i] = leaf[i].append([i-2])
+            if 170 < i < 180:
+                leaf[i] = leaf[i].append([i-2])
+            if 180 <i < 190:
+                leaf[i] = leaf[i].append([i-2])
+            if 190 <i <110:
+                leaf[i] = leaf[i].append([i-2])
+    else:
+        for i in data:
+            if 9 < i < 10:
+                leaf[i] = leaf[i].append([i-2])
+            if 10 < i <20:
+                leaf[i] = leaf[i].append([i-2])
+            if 20 < i < 30:
+                leaf[i] = leaf[i].append([i-2])
+            if 30 < i < 40:
+                leaf[i] = leaf[i].append([i-2])
+            if 40 < i < 50:
+                leaf[i] = leaf[i].append([i-2])
+            if 50 < i < 60:
+                leaf[i] = leaf[i].append([i-2])
+            if 70 < i < 80:
+                leaf[i] = leaf[i].append([i-2])
+            if 80 <i <90:
+                leaf[i] = leaf[i].append([i-2])
+            if 90 <i <200:
+                leaf[i] = leaf[i].append([i-2])             
+# =============================================================================
+# def createLeaf(data):
+#     data.sort()
+#     leaf = []
+#     for i in data:
+#         leaf.append(i[-2]) 
+#     return leaf      
+# 
+# def createStem(data):
+#     data.sort()
+#     stem = []
+#     digits = len(str(max(data)))
+#     for i in data:
+#         if digits == 4:
+#             stem.append(i[0] +i[1] + i[2]) 
+#         elif digits == 3:
+#             stem.append(i[0] + i[1])
+#         else:
+#             stem.append(i[0])
+#     return stem          
+# =============================================================================
+# =============================================================================
+# def printGraph(list):
+#     data = pickfile(data)
+#     
+# =============================================================================
